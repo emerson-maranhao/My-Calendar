@@ -35,7 +35,7 @@ namespace My_Calendar
             this.label12 = new System.Windows.Forms.Label();
             this.label11 = new System.Windows.Forms.Label();
             this.label10 = new System.Windows.Forms.Label();
-            this.label9 = new System.Windows.Forms.Label();
+            this.lbDay = new System.Windows.Forms.Label();
             this.panel2 = new System.Windows.Forms.Panel();
             this.panel3 = new System.Windows.Forms.Panel();
             this.button12 = new System.Windows.Forms.Button();
@@ -93,7 +93,7 @@ namespace My_Calendar
             this.panel1.Controls.Add(this.label12);
             this.panel1.Controls.Add(this.label11);
             this.panel1.Controls.Add(this.label10);
-            this.panel1.Controls.Add(this.label9);
+            this.panel1.Controls.Add(this.lbDay);
             this.panel1.Location = new System.Drawing.Point(3, 3);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(230, 154);
@@ -139,15 +139,15 @@ namespace My_Calendar
             this.label10.TabIndex = 2;
             this.label10.Text = "label10";
             // 
-            // label9
+            // lbDay
             // 
-            this.label9.Font = new System.Drawing.Font("Microsoft Sans Serif", 48F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label9.ForeColor = System.Drawing.Color.White;
-            this.label9.Location = new System.Drawing.Point(9, 44);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(108, 81);
-            this.label9.TabIndex = 1;
-            this.label9.Text = "19";
+            this.lbDay.Font = new System.Drawing.Font("Microsoft Sans Serif", 48F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbDay.ForeColor = System.Drawing.Color.White;
+            this.lbDay.Location = new System.Drawing.Point(9, 44);
+            this.lbDay.Name = "lbDay";
+            this.lbDay.Size = new System.Drawing.Size(108, 81);
+            this.lbDay.TabIndex = 1;
+            this.lbDay.Text = "19";
             // 
             // panel2
             // 
@@ -244,6 +244,7 @@ namespace My_Calendar
             this.button10.TabIndex = 3;
             this.button10.Text = "button10";
             this.button10.UseVisualStyleBackColor = true;
+            this.button10.Click += new System.EventHandler(this.button10_Click);
             // 
             // label20
             // 
@@ -530,7 +531,7 @@ namespace My_Calendar
         private System.Windows.Forms.Label label12;
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.Label label10;
-        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.Label lbDay;
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.Panel panel3;
         private System.Windows.Forms.Button button12;

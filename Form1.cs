@@ -17,6 +17,8 @@ namespace My_Calendar
         public Form_Home()
         {
             InitializeComponent();
+
+
         }
 
         private void Form_Home_Load(object sender, EventArgs e)
@@ -99,12 +101,19 @@ namespace My_Calendar
                 
 
                 tableLayoutPanelDays.Controls.Add(b,x,0);
-             
+
+                b.Click += new System.EventHandler(this.buttomChildClick);
             }
+            
+        }
+
+        void buttomChildClick(object sender, EventArgs e)
+        {
+           Button name = (Button)sender;
+            lbDay.Text = name.Text;
+            var col=tableLayoutPanelDays.Controls.GetChildIndex(name);
 
         }
-        
-
         private void btn_PreviousMonth_Click(object sender, EventArgs e)
         {
             month = month - 1;
@@ -124,7 +133,14 @@ namespace My_Calendar
 
         }
 
-        
+        private void button10_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show(tableLayoutPanelDays.Controls.GetType().Name.ToString());
+            
+               
+            
+        }
+
     }
            
 

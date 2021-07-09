@@ -109,7 +109,7 @@ namespace My_Calendar
         {
             month = month - 1;
             PopulateCalendar(GetDaysOfMonth(2021, month));
-            System.Globalization.DateTimeFormatInfo mfi = new System.Globalization.DateTimeFormatInfo();
+            DateTimeFormatInfo mfi = new DateTimeFormatInfo();
             string monthName = mfi.GetMonthName(month).ToString();
             lb_Month.Text = monthName;
         }
@@ -118,7 +118,7 @@ namespace My_Calendar
         {
             month = month + 1;
             PopulateCalendar(GetDaysOfMonth(2021, month));
-            System.Globalization.DateTimeFormatInfo mfi = new System.Globalization.DateTimeFormatInfo();
+            DateTimeFormatInfo mfi = new DateTimeFormatInfo();
             string monthName = mfi.GetMonthName(month).ToString();
             lb_Month.Text = monthName;
 

@@ -31,7 +31,7 @@ namespace My_Calendar
         {
             this.flowLayoutPanel1 = new System.Windows.Forms.FlowLayoutPanel();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.lb_day = new System.Windows.Forms.Label();
+            this.lbNameDay = new System.Windows.Forms.Label();
             this.label12 = new System.Windows.Forms.Label();
             this.label11 = new System.Windows.Forms.Label();
             this.label10 = new System.Windows.Forms.Label();
@@ -48,11 +48,10 @@ namespace My_Calendar
             this.label20 = new System.Windows.Forms.Label();
             this.label19 = new System.Windows.Forms.Label();
             this.button1 = new System.Windows.Forms.Button();
-            this.monthCalendar1 = new System.Windows.Forms.MonthCalendar();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.lb_Month = new System.Windows.Forms.Label();
-            this.btn_ForwardMonth = new System.Windows.Forms.Button();
-            this.btn_PreviousMonth = new System.Windows.Forms.Button();
+            this.ForwardMonth = new System.Windows.Forms.Button();
+            this.PreviousMonth = new System.Windows.Forms.Button();
             this.tableLayoutPanelDays = new System.Windows.Forms.TableLayoutPanel();
             this.tableLayoutPanelMonths = new System.Windows.Forms.TableLayoutPanel();
             this.label8 = new System.Windows.Forms.Label();
@@ -77,7 +76,6 @@ namespace My_Calendar
             this.flowLayoutPanel1.BackColor = System.Drawing.Color.LimeGreen;
             this.flowLayoutPanel1.Controls.Add(this.panel1);
             this.flowLayoutPanel1.Controls.Add(this.panel2);
-            this.flowLayoutPanel1.Controls.Add(this.monthCalendar1);
             this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Left;
             this.flowLayoutPanel1.ForeColor = System.Drawing.SystemColors.ControlText;
             this.flowLayoutPanel1.Location = new System.Drawing.Point(0, 0);
@@ -89,7 +87,7 @@ namespace My_Calendar
             // 
             this.panel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.panel1.Controls.Add(this.lb_day);
+            this.panel1.Controls.Add(this.lbNameDay);
             this.panel1.Controls.Add(this.label12);
             this.panel1.Controls.Add(this.label11);
             this.panel1.Controls.Add(this.label10);
@@ -99,15 +97,16 @@ namespace My_Calendar
             this.panel1.Size = new System.Drawing.Size(230, 154);
             this.panel1.TabIndex = 2;
             // 
-            // lb_day
+            // lbNameDay
             // 
-            this.lb_day.AutoSize = true;
-            this.lb_day.ForeColor = System.Drawing.Color.White;
-            this.lb_day.Location = new System.Drawing.Point(43, 125);
-            this.lb_day.Name = "lb_day";
-            this.lb_day.Size = new System.Drawing.Size(43, 13);
-            this.lb_day.TabIndex = 5;
-            this.lb_day.Text = "Sunday";
+            this.lbNameDay.AutoSize = true;
+            this.lbNameDay.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lbNameDay.ForeColor = System.Drawing.Color.White;
+            this.lbNameDay.Location = new System.Drawing.Point(43, 125);
+            this.lbNameDay.Name = "lbNameDay";
+            this.lbNameDay.Size = new System.Drawing.Size(69, 20);
+            this.lbNameDay.TabIndex = 5;
+            this.lbNameDay.Text = "Sunday";
             // 
             // label12
             // 
@@ -143,7 +142,7 @@ namespace My_Calendar
             // 
             this.lbDay.Font = new System.Drawing.Font("Microsoft Sans Serif", 48F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lbDay.ForeColor = System.Drawing.Color.White;
-            this.lbDay.Location = new System.Drawing.Point(9, 44);
+            this.lbDay.Location = new System.Drawing.Point(23, 44);
             this.lbDay.Name = "lbDay";
             this.lbDay.Size = new System.Drawing.Size(108, 81);
             this.lbDay.TabIndex = 1;
@@ -244,7 +243,6 @@ namespace My_Calendar
             this.button10.TabIndex = 3;
             this.button10.Text = "button10";
             this.button10.UseVisualStyleBackColor = true;
-            this.button10.Click += new System.EventHandler(this.button10_Click);
             // 
             // label20
             // 
@@ -278,18 +276,14 @@ namespace My_Calendar
             this.button1.Text = "+ add Event";
             this.button1.UseVisualStyleBackColor = false;
             // 
-            // monthCalendar1
-            // 
-            this.monthCalendar1.Location = new System.Drawing.Point(9, 369);
-            this.monthCalendar1.Name = "monthCalendar1";
-            this.monthCalendar1.TabIndex = 11;
-            // 
             // splitContainer1
             // 
             this.splitContainer1.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.splitContainer1.BackColor = System.Drawing.Color.White;
+            this.splitContainer1.FixedPanel = System.Windows.Forms.FixedPanel.Panel1;
+            this.splitContainer1.IsSplitterFixed = true;
             this.splitContainer1.Location = new System.Drawing.Point(236, 0);
             this.splitContainer1.Name = "splitContainer1";
             this.splitContainer1.Orientation = System.Windows.Forms.Orientation.Horizontal;
@@ -297,8 +291,8 @@ namespace My_Calendar
             // splitContainer1.Panel1
             // 
             this.splitContainer1.Panel1.Controls.Add(this.lb_Month);
-            this.splitContainer1.Panel1.Controls.Add(this.btn_ForwardMonth);
-            this.splitContainer1.Panel1.Controls.Add(this.btn_PreviousMonth);
+            this.splitContainer1.Panel1.Controls.Add(this.ForwardMonth);
+            this.splitContainer1.Panel1.Controls.Add(this.PreviousMonth);
             // 
             // splitContainer1.Panel2
             // 
@@ -316,36 +310,36 @@ namespace My_Calendar
             this.lb_Month.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lb_Month.Location = new System.Drawing.Point(181, 13);
             this.lb_Month.Name = "lb_Month";
-            this.lb_Month.Size = new System.Drawing.Size(128, 20);
+            this.lb_Month.Size = new System.Drawing.Size(130, 22);
             this.lb_Month.TabIndex = 2;
             this.lb_Month.Text = "Month";
             this.lb_Month.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
-            // btn_ForwardMonth
+            // ForwardMonth
             // 
-            this.btn_ForwardMonth.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.ForwardMonth.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.btn_ForwardMonth.AutoSize = true;
-            this.btn_ForwardMonth.Location = new System.Drawing.Point(427, 10);
-            this.btn_ForwardMonth.Name = "btn_ForwardMonth";
-            this.btn_ForwardMonth.Size = new System.Drawing.Size(75, 23);
-            this.btn_ForwardMonth.TabIndex = 1;
-            this.btn_ForwardMonth.Text = ">";
-            this.btn_ForwardMonth.UseVisualStyleBackColor = true;
-            this.btn_ForwardMonth.Click += new System.EventHandler(this.btn_ForwardMonth_Click);
+            this.ForwardMonth.AutoSize = true;
+            this.ForwardMonth.Location = new System.Drawing.Point(429, 10);
+            this.ForwardMonth.Name = "ForwardMonth";
+            this.ForwardMonth.Size = new System.Drawing.Size(75, 25);
+            this.ForwardMonth.TabIndex = 1;
+            this.ForwardMonth.Text = ">";
+            this.ForwardMonth.UseVisualStyleBackColor = true;
+            this.ForwardMonth.Click += new System.EventHandler(this.ForwardMonth_Click);
             // 
-            // btn_PreviousMonth
+            // PreviousMonth
             // 
-            this.btn_PreviousMonth.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            this.PreviousMonth.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left)));
-            this.btn_PreviousMonth.Location = new System.Drawing.Point(26, 10);
-            this.btn_PreviousMonth.Margin = new System.Windows.Forms.Padding(30, 3, 3, 3);
-            this.btn_PreviousMonth.Name = "btn_PreviousMonth";
-            this.btn_PreviousMonth.Size = new System.Drawing.Size(75, 23);
-            this.btn_PreviousMonth.TabIndex = 0;
-            this.btn_PreviousMonth.Text = "<";
-            this.btn_PreviousMonth.UseVisualStyleBackColor = true;
-            this.btn_PreviousMonth.Click += new System.EventHandler(this.btn_PreviousMonth_Click);
+            this.PreviousMonth.Location = new System.Drawing.Point(26, 10);
+            this.PreviousMonth.Margin = new System.Windows.Forms.Padding(30, 3, 3, 3);
+            this.PreviousMonth.Name = "PreviousMonth";
+            this.PreviousMonth.Size = new System.Drawing.Size(75, 25);
+            this.PreviousMonth.TabIndex = 0;
+            this.PreviousMonth.Text = "<";
+            this.PreviousMonth.UseVisualStyleBackColor = true;
+            this.PreviousMonth.Click += new System.EventHandler(this.PreviousMonth_Click);
             // 
             // tableLayoutPanelDays
             // 
@@ -523,11 +517,11 @@ namespace My_Calendar
 
         private System.Windows.Forms.FlowLayoutPanel flowLayoutPanel1;
         private System.Windows.Forms.SplitContainer splitContainer1;
-        private System.Windows.Forms.Button btn_ForwardMonth;
-        private System.Windows.Forms.Button btn_PreviousMonth;
+        private System.Windows.Forms.Button ForwardMonth;
+        private System.Windows.Forms.Button PreviousMonth;
         private System.Windows.Forms.Label lb_Month;
         private System.Windows.Forms.Panel panel1;
-        private System.Windows.Forms.Label lb_day;
+        private System.Windows.Forms.Label lbNameDay;
         private System.Windows.Forms.Label label12;
         private System.Windows.Forms.Label label11;
         private System.Windows.Forms.Label label10;
@@ -553,7 +547,6 @@ namespace My_Calendar
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.MonthCalendar monthCalendar1;
     }
 }
 

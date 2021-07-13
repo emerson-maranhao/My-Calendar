@@ -22,15 +22,12 @@ namespace My_Calendar
 
             currentMonth = Int32.Parse(DateTime.Now.ToString("MM"));
             PopulateCalendar(currentYear, currentMonth);
-
             DateTimeFormatInfo mfi = new DateTimeFormatInfo();
             string monthName = mfi.GetMonthName(currentMonth).ToString();
             lb_Month.Text = monthName + " " + currentYear.ToString();
 
             lbDay.Text = currentDay.ToString();
             lbNameDay.Text = DateTime.Now.ToString("ddddd", new CultureInfo("en-US")).ToUpper();
-
-
         }
         private List<DateTime> GetAllDaysOfMonth(int year, int month)
         {
@@ -51,8 +48,22 @@ namespace My_Calendar
             List<DateTime> previousMonthDays = GetAllDaysOfMonth(currentYear, currentMonth - 1);
 
             int indice = 0;
+            List<DateTime> currentMonthDays = GetAllDaysOfMonth(currentYear, currentMonth);
+            List<DateTime> previousMonthDays = GetAllDaysOfMonth(currentYear, currentMonth-1);
+            List<DateTime> forwardMonthDays = GetAllDaysOfMonth(currentYear, currentMonth+1);
+            String day = GetFirstDayOfMonth(currentMonthDays);
 
-            String day = GetFirstDayOfMonth(currentDays);
+            //if (currentMonth<0)
+            //{
+            //    currentYear=currentYear - 1;
+            //}
+            //if (currentMonth>12)
+            //{
+            //    currentYear = currentYear + 1;
+
+            //}
+
+
             indice = GetColumnPositionFromDayOfWeek(day);
 
 
@@ -74,7 +85,7 @@ namespace My_Calendar
 
             tableLayoutPanelDays.Controls.Clear();
 
-            for (int k = 0; k < currentDays.Count; k++)
+            for (int k = 0; k < currentMonthDays.Count; k++)
             {
                 inicio = indice;
 
@@ -84,14 +95,14 @@ namespace My_Calendar
                 Button b = new Button();
 
                 b.Dock = DockStyle.Fill;
-                if (currentDays[k].Day.ToString().Length < 2)
+                if (currentMonthDays[k].Day.ToString().Length < 2)
                 {
-                    b.Text = "0" + currentDays[k].Day.ToString();
+                    b.Text = "0" + currentMonthDays[k].Day.ToString();
 
                 }
                 else
                 {
-                    b.Text = currentDays[k].Day.ToString();
+                    b.Text = currentMonthDays[k].Day.ToString();
                 }
 
                 tableLayoutPanelDays.Controls.Add(b, x, 0);
@@ -108,6 +119,20 @@ namespace My_Calendar
 
             }
 
+            int start = indice;
+            int end = currentMonthDays.Count;
+
+            for (int j = previousMonthDays.Count; j > previousMonthDays.Count- start; j--)
+            {
+                Console.WriteLine("valor---------"+j);
+                Button b = new Button();
+                b.Dock = DockStyle.Fill;
+                b.BackColor = System.Drawing.Color.LightGray;
+                b.Text = previousMonthDays[j-1].Day.ToString();
+                tableLayoutPanelDays.Controls.Add(b, indice-1, 0);
+                indice--;
+
+            }
         }
         private void ChildClickFromTableLayoutPanelDays(object sender, EventArgs e)
         {

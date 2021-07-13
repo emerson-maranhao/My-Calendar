@@ -21,7 +21,8 @@ namespace My_Calendar
         {
 
             currentMonth = Int32.Parse(DateTime.Now.ToString("MM"));
-            PopulateCalendar(GetAllDaysOfMonth(currentYear, currentMonth));
+            PopulateCalendar(currentYear, currentMonth);
+
             DateTimeFormatInfo mfi = new DateTimeFormatInfo();
             string monthName = mfi.GetMonthName(currentMonth).ToString();
             lb_Month.Text = monthName + " " + currentYear.ToString();
@@ -43,35 +44,68 @@ namespace My_Calendar
         {
             return days[0].DayOfWeek.ToString();
         }
-        private void PopulateCalendar(List<DateTime> days)
+        private void PopulateCalendar(int currentYear, int currentMonth)
         {
+            List<DateTime> currentDays = GetAllDaysOfMonth(currentYear, currentMonth);
+            List<DateTime> nextMonthDays = GetAllDaysOfMonth(currentYear, currentMonth + 1);
+            List<DateTime> previousMonthDays = GetAllDaysOfMonth(currentYear, currentMonth - 1);
+
             int indice = 0;
 
-            String day = GetFirstDayOfMonth(days);
+            String day = GetFirstDayOfMonth(currentDays);
             indice = GetColumnPositionFromDayOfWeek(day);
+
+
+            if (currentMonth > 12)
+            {
+                currentYear = currentYear + 1;
+
+
+            }
+            if (currentMonth < 0)
+            {
+                currentYear = currentYear - 1;
+
+            }
+
+            int inicio = 0;
+            int fim = 0;
+            int x = 0;
 
             tableLayoutPanelDays.Controls.Clear();
 
-            for (int k = 0; k < days.Count; k++)
+            for (int k = 0; k < currentDays.Count; k++)
             {
-                int x = k + indice;
+                inicio = indice;
 
+
+
+                x = k + indice;
                 Button b = new Button();
 
                 b.Dock = DockStyle.Fill;
-                if (days[k].Day.ToString().Length < 2)
+                if (currentDays[k].Day.ToString().Length < 2)
                 {
-                    b.Text = "0" + days[k].Day.ToString();
+                    b.Text = "0" + currentDays[k].Day.ToString();
 
                 }
                 else
                 {
-                    b.Text = days[k].Day.ToString();
+                    b.Text = currentDays[k].Day.ToString();
                 }
 
                 tableLayoutPanelDays.Controls.Add(b, x, 0);
 
                 b.Click += new System.EventHandler(this.ChildClickFromTableLayoutPanelDays);
+            }
+            fim = x;
+
+            for (int j = previousMonthDays.Count - indice; j < previousMonthDays.Count; j--)
+            {
+                Button b = new Button();
+                b.Text = "teste";
+                tableLayoutPanelDays.Controls.Add(b, j, 0);
+
             }
 
         }
@@ -180,7 +214,7 @@ namespace My_Calendar
                 currentMonth = 12;
                 currentYear = currentYear - 1;
             }
-            PopulateCalendar(GetAllDaysOfMonth(currentYear, currentMonth));
+            PopulateCalendar(currentYear, currentMonth);
             DateTimeFormatInfo mfi = new DateTimeFormatInfo();
             string monthName = mfi.GetMonthName(currentMonth).ToString();
             lb_Month.Text = monthName + " " + currentYear.ToString();
@@ -196,7 +230,7 @@ namespace My_Calendar
                 currentYear = currentYear + 1;
 
             }
-            PopulateCalendar(GetAllDaysOfMonth(currentYear, currentMonth));
+            PopulateCalendar(currentYear, currentMonth);
             DateTimeFormatInfo mfi = new DateTimeFormatInfo();
             string monthName = mfi.GetMonthName(currentMonth).ToString();
             lb_Month.Text = monthName + " " + currentYear.ToString();

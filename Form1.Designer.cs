@@ -342,6 +342,7 @@ namespace My_Calendar
             | System.Windows.Forms.AnchorStyles.Left)));
             this.PreviousMonth.AutoSize = true;
             this.PreviousMonth.BackColor = System.Drawing.Color.Transparent;
+            this.PreviousMonth.FlatAppearance.BorderSize = 0;
             this.PreviousMonth.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.PreviousMonth.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.PreviousMonth.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(221)))), ((int)(((byte)(134)))));

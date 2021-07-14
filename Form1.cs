@@ -31,6 +31,16 @@ namespace My_Calendar
         }
         private List<DateTime> GetAllDaysOfMonth(int year, int month)
         {
+            if (month < 1)
+            {
+                year = year - 1;
+                month = 12;
+            }
+            if (month > 12)
+            {
+                year = year + 1;
+                month = 1;
+            }
             return Enumerable.Range(1, DateTime.DaysInMonth(year, month))
                              // Days: 1, 2 ... 31 etc.
                              .Select(day => new DateTime(year, month, day))
@@ -43,43 +53,15 @@ namespace My_Calendar
         }
         private void PopulateCalendar(int currentYear, int currentMonth)
         {
-            List<DateTime> currentDays = GetAllDaysOfMonth(currentYear, currentMonth);
-            List<DateTime> nextMonthDays = GetAllDaysOfMonth(currentYear, currentMonth + 1);
-            List<DateTime> previousMonthDays = GetAllDaysOfMonth(currentYear, currentMonth - 1);
 
             int indice = 0;
             List<DateTime> currentMonthDays = GetAllDaysOfMonth(currentYear, currentMonth);
-            List<DateTime> previousMonthDays = GetAllDaysOfMonth(currentYear, currentMonth-1);
-            List<DateTime> forwardMonthDays = GetAllDaysOfMonth(currentYear, currentMonth+1);
+            List<DateTime> previousMonthDays = GetAllDaysOfMonth(currentYear, currentMonth - 1);
+            List<DateTime> forwardMonthDays = GetAllDaysOfMonth(currentYear, currentMonth + 1);
             String day = GetFirstDayOfMonth(currentMonthDays);
-
-            //if (currentMonth<0)
-            //{
-            //    currentYear=currentYear - 1;
-            //}
-            //if (currentMonth>12)
-            //{
-            //    currentYear = currentYear + 1;
-
-            //}
-
 
             indice = GetColumnPositionFromDayOfWeek(day);
 
-
-            if (currentMonth > 12)
-            {
-                currentYear = currentYear + 1;
-
-
-            }
-            if (currentMonth < 0)
-            {
-                currentYear = currentYear - 1;
-
-            }
-
-            int inicio = 0;
             int fim = 0;
             int x = 0;
 
@@ -87,10 +69,6 @@ namespace My_Calendar
 
             for (int k = 0; k < currentMonthDays.Count; k++)
             {
-                inicio = indice;
-
-
-
                 x = k + indice;
                 Button b = new Button();
 
@@ -111,27 +89,32 @@ namespace My_Calendar
             }
             fim = x;
 
-            for (int j = previousMonthDays.Count - indice; j < previousMonthDays.Count; j--)
-            {
-                Button b = new Button();
-                b.Text = "teste";
-                tableLayoutPanelDays.Controls.Add(b, j, 0);
-
-            }
 
             int start = indice;
             int end = currentMonthDays.Count;
 
-            for (int j = previousMonthDays.Count; j > previousMonthDays.Count- start; j--)
+            for (int j = previousMonthDays.Count; j > previousMonthDays.Count - start; j--)
             {
-                Console.WriteLine("valor---------"+j);
                 Button b = new Button();
                 b.Dock = DockStyle.Fill;
-                b.BackColor = System.Drawing.Color.LightGray;
-                b.Text = previousMonthDays[j-1].Day.ToString();
-                tableLayoutPanelDays.Controls.Add(b, indice-1, 0);
+                b.BackColor = System.Drawing.Color.Transparent;
+                b.Text = previousMonthDays[j - 1].Day.ToString();
+                tableLayoutPanelDays.Controls.Add(b, indice - 1, 0);
                 indice--;
 
+            }
+            var i = 0;
+            for (int y = tableLayoutPanelDays.Controls.Count + 1; y < 42 + 1; y++)
+            {
+
+                Button b = new Button();
+                b.Dock = DockStyle.Fill;
+                b.FlatAppearance.BorderSize = 0;
+                b.BackColor = System.Drawing.Color.Transparent;
+                //b.FlatStyle = FlatStyle.Flat;
+                b.Text = forwardMonthDays[i].Day.ToString();
+                tableLayoutPanelDays.Controls.Add(b);
+                i++;
             }
         }
         private void ChildClickFromTableLayoutPanelDays(object sender, EventArgs e)

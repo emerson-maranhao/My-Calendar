@@ -7,13 +7,30 @@ using System.Windows.Forms;
 
 namespace My_Calendar
 {
-    public partial class Form_Home : Form
+
+
+    public partial class Calendar : Form
     {
+
+        public List<Event> listEvent = new List<Event>();
+        public struct Event
+        {
+            public string hour;
+            public string minute;
+            public string description;
+            public Event(string hour, string minute, string description)
+            {
+                this.hour = hour;
+                this.minute = minute;
+                this.description = description;
+            }
+        }
+
         int currentDay = Int32.Parse(DateTime.Now.ToString("dd"));
         int currentMonth = Int32.Parse(DateTime.Now.ToString("MM"));
         int currentYear = Int32.Parse(DateTime.Now.ToString("yyyy"));
 
-        public Form_Home()
+        public Calendar()
         {
             InitializeComponent();
         }
@@ -29,6 +46,7 @@ namespace My_Calendar
             lbDay.Text = currentDay.ToString();
             lbNameDay.Text = DateTime.Now.ToString("ddddd", new CultureInfo("en-US")).ToUpper();
         }
+
         private List<DateTime> GetAllDaysOfMonth(int year, int month)
         {
             if (month < 1)
@@ -54,69 +72,91 @@ namespace My_Calendar
         private void PopulateCalendar(int currentYear, int currentMonth)
         {
 
-            int indice = 0;
             List<DateTime> currentMonthDays = GetAllDaysOfMonth(currentYear, currentMonth);
             List<DateTime> previousMonthDays = GetAllDaysOfMonth(currentYear, currentMonth - 1);
             List<DateTime> forwardMonthDays = GetAllDaysOfMonth(currentYear, currentMonth + 1);
-            String day = GetFirstDayOfMonth(currentMonthDays);
-
-            indice = GetColumnPositionFromDayOfWeek(day);
-
-            int fim = 0;
-            int x = 0;
 
             tableLayoutPanelDays.Controls.Clear();
 
-            for (int k = 0; k < currentMonthDays.Count; k++)
-            {
-                x = k + indice;
-                Button b = new Button();
+            populateCurrentMonth(currentMonthDays);
+            populatePreviousMonth(currentMonthDays, currentMonthDays);
+            populateForwardMonth(forwardMonthDays);
+        }
 
-                b.Dock = DockStyle.Fill;
-                if (currentMonthDays[k].Day.ToString().Length < 2)
-                {
-                    b.Text = "0" + currentMonthDays[k].Day.ToString();
+        private void populatePreviousMonth(List<DateTime> previousMonthDays, List<DateTime> currentMonthDays)
+        {
+            String day = GetFirstDayOfMonth(currentMonthDays);
 
-                }
-                else
-                {
-                    b.Text = currentMonthDays[k].Day.ToString();
-                }
-
-                tableLayoutPanelDays.Controls.Add(b, x, 0);
-
-                b.Click += new System.EventHandler(this.ChildClickFromTableLayoutPanelDays);
-            }
-            fim = x;
-
-
+            int indice = GetColumnPositionFromDayOfWeek(day);
             int start = indice;
-            int end = currentMonthDays.Count;
 
             for (int j = previousMonthDays.Count; j > previousMonthDays.Count - start; j--)
             {
                 Button b = new Button();
                 b.Dock = DockStyle.Fill;
                 b.BackColor = System.Drawing.Color.Transparent;
-                b.Text = previousMonthDays[j - 1].Day.ToString();
+                b.Text = AddZeroBegin(previousMonthDays[j - 1].Day);
+
                 tableLayoutPanelDays.Controls.Add(b, indice - 1, 0);
                 indice--;
+                b.Click += new System.EventHandler(this.ChildClickFromTableLayoutPanelDays);
 
             }
+        }
+
+        private void populateCurrentMonth(List<DateTime> currentMonthDays)
+        {
+
+            String day = GetFirstDayOfMonth(currentMonthDays);
+
+            int indice = GetColumnPositionFromDayOfWeek(day);
+
+            int x = 0;
+            for (int k = 0; k < currentMonthDays.Count; k++)
+            {
+                x = k + indice;
+                Button b = new Button();
+
+                b.Dock = DockStyle.Fill;
+                b.Text = AddZeroBegin(currentMonthDays[k].Day);
+
+                tableLayoutPanelDays.Controls.Add(b, x, 0);
+
+                b.Click += new System.EventHandler(this.ChildClickFromTableLayoutPanelDays);
+            }
+
+        }
+
+        private void populateForwardMonth(List<DateTime> forwardMonthDays)
+        {
             var i = 0;
             for (int y = tableLayoutPanelDays.Controls.Count + 1; y < 42 + 1; y++)
             {
 
                 Button b = new Button();
                 b.Dock = DockStyle.Fill;
-                b.FlatAppearance.BorderSize = 0;
                 b.BackColor = System.Drawing.Color.Transparent;
-                //b.FlatStyle = FlatStyle.Flat;
-                b.Text = forwardMonthDays[i].Day.ToString();
+                b.Text = AddZeroBegin(forwardMonthDays[i].Day);
+
                 tableLayoutPanelDays.Controls.Add(b);
                 i++;
+                b.Click += new System.EventHandler(this.ChildClickFromTableLayoutPanelDays);
             }
         }
+        private string AddZeroBegin(int day)
+        {
+            string text = "";
+            if (day.ToString().Length < 2)
+            {
+                text = "0" + day.ToString();
+            }
+            else
+            {
+                text = day.ToString();
+            }
+            return text;
+        }
+
         private void ChildClickFromTableLayoutPanelDays(object sender, EventArgs e)
         {
             Button button = (Button)sender;
@@ -244,6 +284,42 @@ namespace My_Calendar
             lb_Month.Text = monthName + " " + currentYear.ToString();
 
         }
+        private void btnAddEvent_Click(object sender, EventArgs e)
+        {
+            AddEvent addEvent = new AddEvent(this);
+            this.Opacity = .97d;
+            addEvent.ShowDialog();
+           
+        }
+        int pos = 0;
+        public void AddNewEvent(string hour, string minute, string description)
+        {
+            listEvent.Add(new Event(hour, minute, description));
 
+            Button b = new Button();
+            Label l = new Label();
+
+            b.Text = listEvent[pos].description;
+            b.Dock = DockStyle.Fill;
+            b.ForeColor = System.Drawing.Color.White;
+
+            l.Text = listEvent[pos].hour +":"+ listEvent[pos].minute;
+            l.ForeColor = System.Drawing.Color.White;
+            l.Dock = DockStyle.Fill;
+            l.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            
+
+            tlpEvents.Controls.Add(l);
+            tlpEvents.Controls.Add(b);
+
+            pos++;
+
+
+        }
     }
+
 }
+
+
+
+
